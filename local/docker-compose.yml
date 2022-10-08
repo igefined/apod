@@ -1,0 +1,43 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: betera_db
+    image: postgres
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_ROOT_PASSWORD=12345
+      - PGDATA=/data/postgres
+    volumes:
+      - db:/data/postgres
+      - ../migrations/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    ports:
+      - '5432:5432'
+    restart: always
+    networks:
+      - betera_db_network
+
+  pgAdmin:
+    container_name: betera_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=ig.pomazkov@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=12345
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - '5000:80'
+    restart: unless-stopped
+    networks:
+      - betera_db_network
+
+volumes:
+  db: { }
+  pgadmin: { }
+
+networks:
+  betera_db_network:
+    driver: bridge
