@@ -2,8 +2,8 @@ run-local: clean build-swagger local-db-init
 	go build -o dist/betera cmd/http/main.go && ./dist/betera
 
 clean:
-	rm -rf build
-	mkdir -p build
+	rm -rf dist
+	mkdir -p dist
 
 local-db-init:
 	docker compose -f ./local/docker-compose.yml up -d

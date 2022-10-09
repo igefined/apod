@@ -41,12 +41,6 @@ func New() *App {
 		log.Fatal("config file have not parsed")
 	}
 
-	logging.Log().Info("init postgres client")
-	postgresDB, err := postgres.NewPostgresClient(postgres.NewPostgresConfig(cfg.DBHost, cfg.DBPort, cfg.DBName, cfg.DBUser, cfg.DBPassword))
-	if err != nil {
-		log.Fatalf("error of create postgres client %v", err)
-	}
-
 	logging.Log().Info("init s3Storage client")
 	s3Storage, err := s3Store.NewS3Storage(s3Store.NewS3Config(cfg.AWSAccessKey, cfg.AWSSecretKey, cfg.AWSRegion, cfg.AWSBucketName))
 	if err != nil {
@@ -55,6 +49,12 @@ func New() *App {
 
 	logging.Log().Info("init nasa client")
 	nasaClient := nasa.NewClient(cfg.NASAApiKey)
+
+	logging.Log().Info("init postgres client")
+	postgresDB, err := postgres.NewPostgresClient(postgres.NewPostgresConfig(cfg.DBHost, cfg.DBPort, cfg.DBName, cfg.DBUser, cfg.DBPassword))
+	if err != nil {
+		log.Fatalf("error of create postgres client %v", err)
+	}
 
 	return &App{
 		cfg:        cfg,
