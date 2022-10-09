@@ -103,10 +103,10 @@ func (u userHandler) Albums() echo.HandlerFunc {
 // @Tags users
 // @Accept json
 // @Produce json
-// @Success 200
+// @Success 200 {object} []byte "array of bytes(image)"
 // @Param date query string true "template 2006-01-02"
 // @Param filename query string true "filename"
-// @Router /api/v1/users/current/albums [get]
+// @Router /api/v1/users/current/albums/download [get]
 func (u userHandler) DownloadImage() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		dateAsString := c.QueryParam("date")
@@ -141,9 +141,9 @@ func (u userHandler) DownloadImage() echo.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Success 200
-// @Param date query string true "template 2006-01-02"
-// @Param filename query string true "filename"
-// @Router /api/v1/users/current/albums [get]
+// @Param date formData string true "template 2006-01-02"
+// @Param file formData file true "file"
+// @Router /api/v1/users/current/albums/upload [post]
 func (u userHandler) UploadImage() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		dateAsString := c.FormValue("date")
