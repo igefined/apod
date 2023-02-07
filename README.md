@@ -1,4 +1,4 @@
-# Betera APOD service
+# APOD service
 
 Cервис юного астролога. Сервис выполняет функции:
 
